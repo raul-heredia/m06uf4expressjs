@@ -3,11 +3,11 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Iniciar Sessió' });
 });
 
 router.get('/crearCompte', function(req, res, next) {
-  res.render('crearCompte', { title: 'Express' });
+  res.render('crearCompte', { title: 'Crear Compte' });
 });
 
 

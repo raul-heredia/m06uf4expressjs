@@ -4,17 +4,17 @@ block content
   main(class="flex h-screen")
     div(class="w-full max-w-xs m-auto bg-indigo-100 rounded p-5")
       header
-        img(class="w-20 mx-auto mb-3", src="/images/pug.svg")
-      form(autocomplete="off")
+        img(class="w-20 mx-auto mb-3" src="/images/pug.svg")
+      form(autocomplete="off" method="POST" action="/usuaris/iniciarSessio")
         div 
           label(class="block mb-2 text-indigo-500" for="usuari") Usuari
-          input(class="w-full p-2 mb-6 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-300", type="text", name="usuari")
+          input(class="w-full p-2 mb-6 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-300" type="text" name="usuari")
         div 
           label(class="block mb-2 text-indigo-500" for="contrasenya") Contrasenya
-          input(class="w-full p-2 mb-6 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-300", type="password", name="contrasenya")
+          input(class="w-full p-2 mb-6 text-indigo-700 border-b-2 border-indigo-500 outline-none focus:bg-gray-300" type="password" name="contrasenya")
         div
-          input(class="w-full bg-indigo-700 hover:bg-indigo-900 text-white font-bold py-2 px-4 mb-6 rounded", type="submit" value="Iniciar Sessió")
+          input(class="w-full bg-indigo-700 hover:bg-indigo-900 text-white font-bold py-2 px-4 mb-6 rounded" type="submit" value="Iniciar Sessió")
       footer
-        a(class="text-indigo-700 hover:text-indigo-900 text-sm float-right", href="/crearCompte") Crear Compte
-      
-        
+        a(class="text-indigo-700 hover:text-indigo-900 text-sm float-right" href="/crearCompte") Crear Compte
+
+

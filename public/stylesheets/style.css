@@ -1,6 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 'Nunito', sans-serif;
 }
 
 a {
@@ -9,4 +10,12 @@ a {
 
 .h-screen{
   height: 85vh !important;
+}
+
+.scoreTable thead th:first-of-type{
+  border-top-left-radius: 8px; 
+}
+
+.scoreTable thead th:last-of-type{
+  border-top-right-radius: 8px; 
 }

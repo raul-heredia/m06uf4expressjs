@@ -1,0 +1,44 @@
+extends layout
+
+block content
+    main(class="flex flex-col h-screen")
+        div(class="w-full m-auto bg-indigo-100 rounded p-5")
+            h1(class="text-3xl")="Benvingut/da " + username
+        div(class="flex gap-x-5 w-11/12 self-center	justify-items-center justify-center text-center")
+            div(class="flex-auto w-full m-auto bg-indigo-100 rounded p-5")
+                h1(class="text-2xl")="2 JUGADORS"
+                div(class="flex gap-x-5 mt-5 justify-items-center justify-center text-center")
+                    img(class="h-24 w-24" src="/images/a_blue.png")
+                    img(class="h-24 w-24" src="/images/a_red.png")
+                div(class="scoreTable rounded-lg border shadow-2xl")
+                    table(class="table-auto w-full text-left")
+                        thead
+                            tr(class="bg-indigo-900 rounded-lg")
+                                th(class="p-4 text-neutral-50 text-left") Nom Jugador
+                                th(class="p-4 text-neutral-50 text-left") Puntuació
+                        tbody
+                            each val, key in arr
+                                tr
+                                    td(class="p-4 uppercase")= val.usr
+                                    td(class="p-4")= val.top1v1
+
+            div(class="flex-auto w-full m-auto bg-indigo-100 rounded p-5")
+                h1(class="text-2xl")="4 JUGADORS"
+                div(class="flex gap-x-5 mt-5 justify-items-center justify-center text-center")
+                    img(class="h-24 w-24" src="/images/a_blue.png")
+                    img(class="h-24 w-24" src="/images/a_red.png")
+                    img(class="h-24 w-24" src="/images/a_orange.png")
+                    img(class="h-24 w-24" src="/images/a_green.png")
+                div(class="scoreTable rounded-lg border shadow-2xl")
+                    table(class="table-auto w-full text-left")
+                        thead
+                            tr(class="bg-indigo-900 rounded-lg")
+                                th(class="p-4 text-neutral-50 text-left") Nom Jugador
+                                th(class="p-4 text-neutral-50 text-left") Puntuació
+                        tbody
+                            each val, key in arr
+                                tr
+                                    td(class="p-4 uppercase")= val.usr
+                                    td(class="p-4")= val.top1v1
+
+

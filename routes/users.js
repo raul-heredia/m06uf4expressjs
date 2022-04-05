@@ -14,13 +14,11 @@ router.post('/iniciarSessio', function (req, res, next) {
 
   async function login(usr, passwd) {
     let usuari = await db.collection('jugadors').findOne({ usuari: usr, contrasenya: passwd })
-
     if (usuari) {
-      console.log("Hola");
-      res.send(`Usuari: ${usuari.usuari} Contrasenya: ${usuari.contrasenya}`);
+      //res.send(`Usuari: ${usuari.usuari} Contrasenya: ${usuari.contrasenya}`);
+      res.redirect(`/lobby?usuari=${usuari.usuari}`)
     } else {
-      console.log("Adeu");
-      res.send(`Adeu`);
+      res.render('index', { title: "Error d'autenticació" })
     }
   }
   login(usuari, contrasenya);

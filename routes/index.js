@@ -37,7 +37,7 @@ router.post('/partida2Jug', function (req, res, next) {
       partidas2Jug.forEach(partida => {
         if (partida.codiPartida == codiPartida) {
           isPartida = true;
-          res.send("Error, ja existeix la partida");
+          console.log("Ya existe la partida")
         };
       });
       if (!isPartida) {
@@ -48,6 +48,7 @@ router.post('/partida2Jug', function (req, res, next) {
         partidas2Jug.push(partida);
         console.log(partidas2Jug)
         console.log(partidas2Jug[0].jugadors)
+        res.render('partida2Jug', { title: 'Partida 2 jugadors', nomJugador: nomJugador, codiPartida: codiPartida })
       }
       break;
     case "unirse":
@@ -57,9 +58,10 @@ router.post('/partida2Jug', function (req, res, next) {
             if (partida.jugadors[0].nomJugador != nomJugador) {
               let jugador = new Jugador(nomJugador);
               partida.jugadors.push(jugador);
+              res.render('partida2Jug', { title: 'Partida 2 jugadors', nomJugador: nomJugador, codiPartida: codiPartida })
             }
           } else {
-            console.log("Error", nomJugador, "partida completa")
+            res.render('partida2Jug', { title: 'Partida 2 jugadors', nomJugador: nomJugador, codiPartida: codiPartida })
           }
         };
       });
@@ -67,7 +69,6 @@ router.post('/partida2Jug', function (req, res, next) {
       console.log(partidas2Jug[0].jugadors);
       break;
   }
-  res.send(`${codiPartida}, ${accio}`);
 });
 router.post('/partida4Jug', function (req, res, next) {
   const codiPartida = req.body.codiPartida;
@@ -90,6 +91,7 @@ router.post('/partida4Jug', function (req, res, next) {
         partidas4Jug.push(partida);
         console.log(partidas4Jug)
         console.log(partidas4Jug[0].jugadors)
+        res.render('partida4Jug', { title: 'Partida 4 jugadors', nomJugador: nomJugador, codiPartida: codiPartida })
       }
       break;
     case "unirse":
@@ -103,6 +105,7 @@ router.post('/partida4Jug', function (req, res, next) {
             if (!isJugadorDintre) {
               let jugador = new Jugador(nomJugador);
               partida.jugadors.push(jugador);
+              res.render('partida4Jug', { title: 'Partida 4 jugadors', nomJugador: nomJugador, codiPartida: codiPartida })
             }
           } else {
             console.log("Error", nomJugador, "partida completa")
@@ -113,7 +116,7 @@ router.post('/partida4Jug', function (req, res, next) {
       console.log(partidas4Jug[0].jugadors);
       break;
   }
-  res.send(`${codiPartida}, ${accio}`);
+  //res.send(`${codiPartida}, ${accio}`);
 });
 
 class Partida {
@@ -128,9 +131,6 @@ class Jugador {
     this.nomJugador = nomJugador;
     this.puntuacio = 0;
   }
-  /* get nomJugador(nombre) {
-    this.nombre = nombre;
-  } */
 }
 
 module.exports = router;

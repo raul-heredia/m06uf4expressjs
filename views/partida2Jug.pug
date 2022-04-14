@@ -1,0 +1,19 @@
+extends layout
+
+block content
+    head
+        script(src="./js/partida2Jug.js")
+    main(class="w-full m-auto bg-indigo-100 rounded p-5")
+        div
+            span="Jugador: "
+            span(id="nomJugador")=nomJugador
+        div 
+            span="Codi Partida: "
+            span(id="codiPartida")=codiPartida
+        div(class="flex justify-center") 
+            div
+                table(class="tablero" id="taula") 
+                    each row in [1, 2, 3, 4, 5]
+                        tr(class="tablero")
+                            each col in [1, 2, 3, 4, 5]
+                                td(class="tablero" id=`${row}-${col}`) 

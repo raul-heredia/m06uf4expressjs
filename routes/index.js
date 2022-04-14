@@ -96,7 +96,11 @@ router.post('/partida4Jug', function (req, res, next) {
       partidas4Jug.forEach(partida => {
         if (partida.codiPartida == codiPartida) {
           if (partida.jugadors.length < 4) {
-            if (partida.jugadors[0].nomJugador != nomJugador) {
+            let isJugadorDintre = false;
+            partida.jugadors.forEach(jugador => {
+              if (jugador.nomJugador == nomJugador) isJugadorDintre = true;
+            })
+            if (!isJugadorDintre) {
               let jugador = new Jugador(nomJugador);
               partida.jugadors.push(jugador);
             }

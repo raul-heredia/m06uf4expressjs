@@ -6,16 +6,33 @@ block content
         script(src="./js/socket.io/client-dist/socket.io.js")
         script.
             var socket = io();
+            var celdaClickada;
+
+            function click (){
+                document.getElementById('taula2').addEventListener('click', (ev) => {
+                celdaClickada = ev.target.id;
+                console.log(celdaClickada);
+                socket.emit('celda', {
+                    celdaClickada: celdaClickada, pepito: 'pepito'});
+                });
+                socket.on('celdaMoviment', function (data) {
+                    console.log('CLIENT -> dades rebudes del servidor->' + data.pepa);
+                    document.body.style.backgroundColor='red';
+                });
+            }
+            window.addEventListener('load', click, false);
     main(class="w-full m-auto bg-indigo-100 rounded p-5")
-        div
-            span="Jugador: "
-            span(id="nomJugador")=nomJugador
         div 
             span="Codi Partida: "
             span(id="codiPartida")=codiPartida
+        div
+            ul
+                h3="Jugadors: "
+                each jugador in jugadors
+                    li= jugador
         div(class="flex justify-center") 
             div
-                table(class="tablero") 
+                table(class="tablero" id="taula2") 
                     each row in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                         tr(class="tablero")
                             each col in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]

@@ -26,9 +26,18 @@ var server = http.createServer(app);
 * Websockets
 */
 const { Server } = require("socket.io");
+const { set } = require('../app');
 const io = new Server(server);
+
+
 io.on('connection', (socket) => {
-  console.log('a user connected');
+  console.log("USUARIO CONECTADO");
+  socket.on('celda', function (data) {
+    console.log('SERVIDOR -> dades rebudes del client->' + data.celdaClickada, data.pepito);
+    socket.emit('celdaMoviment', { pepa: 'pepa' });
+    socket.broadcast.emit('celdaMoviment', { pepa: 'pepa' });
+    });
+  //broadcast --> cualquiera que este conectado envia el cambio para que lo vean los demas
 });
 
 /**

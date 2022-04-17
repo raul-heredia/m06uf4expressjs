@@ -5,6 +5,7 @@ var db = monk('127.0.0.1:27017/projecteExpress');
 
 let partidas2Jug = [];
 let partidas4Jug = [];
+
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('index', { title: 'Iniciar Sessió' });
@@ -46,9 +47,9 @@ router.post('/partida2Jug', function (req, res, next) {
         jugadors.push(jugador);
         let partida = new Partida(codiPartida, jugadors);
         partidas2Jug.push(partida);
-        console.log(partidas2Jug)
-        console.log(partidas2Jug[0].jugadors)
-        res.render('partida2Jug', { title: 'Partida 2 jugadors', nomJugador: nomJugador, codiPartida: codiPartida })
+        // console.log(partidas2Jug)
+        console.log("Codi partida: ", partida.codiPartida,"Jugadors: ",partida.jugadors.map(j => {return j.nomJugador}));
+        res.render('partida2Jug', { title: 'Partida 2 jugadors', jugadors: partida.jugadors.map(j => {return j.nomJugador}), codiPartida: codiPartida })
       }
       break;
     case "unirse":
@@ -58,15 +59,16 @@ router.post('/partida2Jug', function (req, res, next) {
             if (partida.jugadors[0].nomJugador != nomJugador) {
               let jugador = new Jugador(nomJugador);
               partida.jugadors.push(jugador);
-              res.render('partida2Jug', { title: 'Partida 2 jugadors', nomJugador: nomJugador, codiPartida: codiPartida })
+              res.render('partida2Jug', { title: 'Partida 2 jugadors', jugadors: partida.jugadors.map(j => {return j.nomJugador}), codiPartida: codiPartida })
+              console.log("Codi partida: ", partida.codiPartida,"Jugadors: ",partida.jugadors.map(j => {return j.nomJugador}));
             }
           } else {
-            res.render('partida2Jug', { title: 'Partida 2 jugadors', nomJugador: nomJugador, codiPartida: codiPartida })
+            res.render('partida2Jug', { title: 'Partida 2 jugadors', jugadors: partida.jugadors.map(j => {return j.nomJugador}), codiPartida: codiPartida })
           }
         };
       });
-      console.log(partidas2Jug)
-      console.log(partidas2Jug[0].jugadors);
+      // console.log(partidas2Jug)
+      //console.log(partidas2Jug[0].jugadors);
       break;
   }
 });
@@ -93,7 +95,7 @@ router.post('/partida4Jug', function (req, res, next) {
         partidas4Jug.push(partida);
         console.log(partidas4Jug)
         console.log(partidas4Jug[0].jugadors)
-        res.render('partida4Jug', { title: 'Partida 4 jugadors', nomJugador: nomJugador, codiPartida: codiPartida })
+        res.render('partida4Jug', { title: 'Partida 4 jugadors', jugadors: partida.jugadors.map(j => {return j.nomJugador}), codiPartida: codiPartida })
       }
       break;
     case "unirse":
@@ -107,7 +109,7 @@ router.post('/partida4Jug', function (req, res, next) {
             if (!isJugadorDintre) {
               let jugador = new Jugador(nomJugador);
               partida.jugadors.push(jugador);
-              res.render('partida4Jug', { title: 'Partida 4 jugadors', nomJugador: nomJugador, codiPartida: codiPartida })
+              res.render('partida4Jug', { title: 'Partida 4 jugadors', jugadors: partida.jugadors.map(j => {return j.nomJugador}), codiPartida: codiPartida })
             }
           } else {
             console.log("Error", nomJugador, "partida completa")

@@ -26,10 +26,8 @@ block content
             span="Codi Partida: "
             span(id="codiPartida")=codiPartida
         div
-            ul
-                h3="Jugadors: "
-                each jugador in jugadors
-                    li= jugador
+            span="Jugador: "
+            span(id="nomJugador")=nomJugador
         div(class="flex justify-center") 
             div
                 table(class="tablero" id="taula2") 

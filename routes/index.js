@@ -43,13 +43,23 @@ router.post('/partida2Jug', function (req, res, next) {
       });
       if (!isPartida) {
         let jugadors = [];
+        let files = [1, 2, 3, 4, 5], columnes = [1, 2, 3, 4, 5];
+        let taulell = new Map();
+        files.forEach(fila => {
+          columnes.forEach(columna => {
+            taulell.set(`${fila}-${columna}`, "");
+          })
+        })
+        taulell.set("5-1", nomJugador);
         let jugador = new Jugador(nomJugador)
         jugadors.push(jugador);
         let partida = new Partida(codiPartida, jugadors);
+        partida.taulell = taulell;
         partidas2Jug.push(partida);
-        // console.log(partidas2Jug)
-        console.log("Codi partida: ", partida.codiPartida,"Jugadors: ",partida.jugadors.map(j => {return j.nomJugador}));
-        res.render('partida2Jug', { title: 'Partida 2 jugadors', jugadors: partida.jugadors.map(j => {return j.nomJugador}), codiPartida: codiPartida })
+        console.log(partidas2Jug)
+        console.log("Codi partida: ", partida.codiPartida, "Jugadors: ", partida.jugadors.map(j => { return j.nomJugador }));
+        // res.render('partida2Jug', { title: 'Partida 2 jugadors', jugadors: partida.jugadors.map(j => { return j.nomJugador }), codiPartida: codiPartida })
+        res.render('partida2Jug', { title: 'Partida 2 jugadors', nomJugador: nomJugador, codiPartida: codiPartida })
       }
       break;
     case "unirse":
@@ -58,12 +68,16 @@ router.post('/partida2Jug', function (req, res, next) {
           if (partida.jugadors.length < 2) {
             if (partida.jugadors[0].nomJugador != nomJugador) {
               let jugador = new Jugador(nomJugador);
+              partida.taulell.set("1-5", nomJugador);
               partida.jugadors.push(jugador);
-              res.render('partida2Jug', { title: 'Partida 2 jugadors', jugadors: partida.jugadors.map(j => {return j.nomJugador}), codiPartida: codiPartida })
-              console.log("Codi partida: ", partida.codiPartida,"Jugadors: ",partida.jugadors.map(j => {return j.nomJugador}));
+              // res.render('partida2Jug', { title: 'Partida 2 jugadors', jugadors: partida.jugadors.map(j => { return j.nomJugador }), codiPartida: codiPartida })
+              console.log(partida)
+              console.log("Codi partida: ", partida.codiPartida, "Jugadors: ", partida.jugadors.map(j => { return j.nomJugador }));
+              res.render('partida2Jug', { title: 'Partida 2 jugadors', nomJugador: nomJugador, codiPartida: codiPartida })
             }
           } else {
-            res.render('partida2Jug', { title: 'Partida 2 jugadors', jugadors: partida.jugadors.map(j => {return j.nomJugador}), codiPartida: codiPartida })
+            // res.render('partida2Jug', { title: 'Partida 2 jugadors', jugadors: partida.jugadors.map(j => { return j.nomJugador }), codiPartida: codiPartida })
+            res.render('partida2Jug', { title: 'Partida 2 jugadors', nomJugador: nomJugador, codiPartida: codiPartida })
           }
         };
       });
@@ -88,14 +102,22 @@ router.post('/partida4Jug', function (req, res, next) {
         };
       });
       if (!isPartida) {
+        let files = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], columnes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        let taulell = new Map();
+        files.forEach(fila => {
+          columnes.forEach(columna => {
+            taulell.set(`${fila}-${columna}`, "");
+          })
+        })
         let jugadors = [];
         let jugador = new Jugador(nomJugador)
         jugadors.push(jugador);
         let partida = new Partida(codiPartida, jugadors);
+        partida.taulell = taulell;
         partidas4Jug.push(partida);
         console.log(partidas4Jug)
         console.log(partidas4Jug[0].jugadors)
-        res.render('partida4Jug', { title: 'Partida 4 jugadors', jugadors: partida.jugadors.map(j => {return j.nomJugador}), codiPartida: codiPartida })
+        res.render('partida4Jug', { title: 'Partida 4 jugadors', jugadors: partida.jugadors.map(j => { return j.nomJugador }), codiPartida: codiPartida })
       }
       break;
     case "unirse":
@@ -109,7 +131,7 @@ router.post('/partida4Jug', function (req, res, next) {
             if (!isJugadorDintre) {
               let jugador = new Jugador(nomJugador);
               partida.jugadors.push(jugador);
-              res.render('partida4Jug', { title: 'Partida 4 jugadors', jugadors: partida.jugadors.map(j => {return j.nomJugador}), codiPartida: codiPartida })
+              res.render('partida4Jug', { title: 'Partida 4 jugadors', jugadors: partida.jugadors.map(j => { return j.nomJugador }), codiPartida: codiPartida })
             }
           } else {
             console.log("Error", nomJugador, "partida completa")

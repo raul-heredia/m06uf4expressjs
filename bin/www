@@ -29,14 +29,23 @@ const { Server } = require("socket.io");
 const { set } = require('../app');
 const io = new Server(server);
 
-
 io.on('connection', (socket) => {
   console.log("USUARIO CONECTADO");
   socket.on('celda', function (data) {
-    console.log('SERVIDOR -> dades rebudes del client->' + data.celdaClickada, data.pepito);
-    socket.emit('celdaMoviment', { pepa: 'pepa' });
-    socket.broadcast.emit('celdaMoviment', { pepa: 'pepa' });
-    });
+    /*
+      - Una vez importado los arrays de partidas
+
+      - Buscar la partida con el identificador que le llega del websocket (Se podria hacer una nueva variable partida para que sea mas facil )
+      - Una vez encontrada la partida.
+        - Opción 1 Partida 2 Jugadores: Pillar posicion 0 y 3 (En la de 4 no se podria porque hay numeros de dos cifras) del string celdaClickada, parsearlos como integros y hacer funciones que comprueben hacia todos los lados y devuelvan true o falses
+        - Opción 2 (Cualquier partida): Hacer un split split("-") el cual nos devuelve un array con los numeros tal cual y sin guion, se parsean como integros y hacer funciones que comprueben hacia todos los lados y devuelvan true o falses
+    
+    
+    */
+    console.log('SERVIDOR -> dades rebudes del client->' + data.numeroPartida, data.celdaClickada, data.jugador);
+    socket.emit('celdaMoviment', { celda: data.celdaClickada });
+    socket.broadcast.emit('celdaMoviment', { celda: data.celdaClickada });
+  });
   //broadcast --> cualquiera que este conectado envia el cambio para que lo vean los demas
 });
 

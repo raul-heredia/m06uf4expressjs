@@ -6,18 +6,20 @@ block content
         script(src="./js/socket.io/client-dist/socket.io.js")
         script.
             var socket = io();
-            var celdaClickada;
-
+            var numeroPartida, celdaClickada, usuari;
             function click (){
                 document.getElementById('taula').addEventListener('click', (ev) => {
                 celdaClickada = ev.target.id;
+                usuari = document.getElementById('nomJugador').innerHTML;
+                numeroPartida = document.getElementById('codiPartida').innerHTML;
                 console.log(celdaClickada);
                 socket.emit('celda', {
-                    celdaClickada: celdaClickada, pepito: 'pepito'});
+                    numeroPartida: numeroPartida,celdaClickada: celdaClickada, jugador: usuari});
                 });
                 socket.on('celdaMoviment', function (data) {
-                    console.log('CLIENT -> dades rebudes del servidor->' + data.pepa);
-                    document.body.style.backgroundColor='red';
+                    console.log(data)
+                    console.log('CLIENT -> dades rebudes del servidor->' + data.celda);
+                    document.getElementById(data.celda).classList.add("rojo");
                 });
             }
             window.addEventListener('load', click, false);
@@ -27,10 +29,8 @@ block content
             span="Codi Partida: "
             span(id="codiPartida")=codiPartida
         div
-            ul
-                h3="Jugadors: "
-                each jugador in jugadors
-                    li= jugador
+            span="Jugador: "
+            span(id="nomJugador")=nomJugador
         div(class="flex justify-center") 
             div
                 table(class="tablero" id="taula") 

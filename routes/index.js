@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var monk = require('monk');
-var db = monk('localhost:27017/projecteExpress');
+var db = monk('127.0.0.1:27017/projecteExpress');
 
 let partidas2Jug = [];
 let partidas4Jug = [];
@@ -70,6 +70,8 @@ router.post('/partida2Jug', function (req, res, next) {
       break;
   }
 });
+
+/* LOGICA CREAR UNIRSE PARTIDA 4 JUGADORES */
 router.post('/partida4Jug', function (req, res, next) {
   const codiPartida = req.body.codiPartida;
   const accio = req.body.accion;

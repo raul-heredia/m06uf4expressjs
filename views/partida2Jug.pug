@@ -3,6 +3,9 @@ extends layout
 block content
     head
         script(src="./js/partida2Jug.js")
+        script(src="./js/socket.io/client-dist/socket.io.js")
+        script.
+            var socket = io();
     main(class="w-full m-auto bg-indigo-100 rounded p-5")
         div
             span="Jugador: "

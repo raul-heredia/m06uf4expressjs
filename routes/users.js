@@ -1,6 +1,6 @@
 var express = require('express');
 var monk = require('monk');
-var db = monk('localhost:27017/projecteExpress');
+var db = monk('127.0.0.1:27017/projecteExpress');
 var router = express.Router();
 
 /* GET users listing. */
@@ -13,6 +13,7 @@ router.post('/iniciarSessio', function (req, res, next) {
   const contrasenya = req.body.contrasenya;
 
   async function login(usr, passwd) {
+    console.log("entra");
     let usuari = await db.collection('jugadors').findOne({ usuari: usr, contrasenya: passwd })
     if (usuari) {
       //res.send(`Usuari: ${usuari.usuari} Contrasenya: ${usuari.contrasenya}`);

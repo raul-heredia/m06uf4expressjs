@@ -116,6 +116,91 @@ io.on('connection', (socket) => {
       socket.broadcast.emit('celdaMoviment2Jug', { codiPartida: data.numeroPartida, celda: data.celdaClickada, color: colorJugador });
     }
   });
+  socket.on('celda4Jug', function (data) {
+    function comprobarLados(partida, casillaClick, jugador) {
+      let arrCasilla = casillaClick.split("-");
+      arrCasilla[0] = parseInt(arrCasilla[0])
+      arrCasilla[1] = parseInt(arrCasilla[1])
+      console.log(jugador)
+      console.log(partida)
+      console.log(arrCasilla)
+      // Comprobar Izquierda
+      if (partida.taulell.get(`${(arrCasilla[0])}-${(arrCasilla[1] - 1)}`) == jugador) {
+        if (!partida.taulell.get(casillaClick)) {
+          partida.taulell.set(casillaClick, jugador)
+          return true
+        }
+      }
+      // comprobar Derecha
+      else if (partida.taulell.get(`${arrCasilla[0]}-${arrCasilla[1] + 1}`) == jugador) {
+        if (!partida.taulell.get(casillaClick)) {
+          partida.taulell.set(casillaClick, jugador)
+          return true
+        }
+      }
+      // comprobar Abajo
+      else if (partida.taulell.get(`${arrCasilla[0] + 1}-${arrCasilla[1]}`) == jugador) {
+        if (!partida.taulell.get(casillaClick)) {
+          partida.taulell.set(casillaClick, jugador)
+          return true
+        }
+      }
+      // comprobar Arriba
+      else if (partida.taulell.get(`${arrCasilla[0] - 1}-${arrCasilla[1]}`) == jugador) {
+        if (!partida.taulell.get(casillaClick)) {
+          partida.taulell.set(casillaClick, jugador)
+          return true
+        }
+      }
+      // comprobar Diagonal Arriba Derecha
+      else if (partida.taulell.get(`${arrCasilla[0] + 1}-${arrCasilla[1] - 1}`) == jugador) {
+        if (!partida.taulell.get(casillaClick)) {
+          partida.taulell.set(casillaClick, jugador)
+          return true
+        }
+      }
+      // comprobar Diagonal Abajo Derecha
+      else if (partida.taulell.get(`${arrCasilla[0] - 1}-${arrCasilla[1] - 1}`) == jugador) {
+        if (!partida.taulell.get(casillaClick)) {
+          partida.taulell.set(casillaClick, jugador)
+          return true
+        }
+      }
+      // comprobar Diagonal Arriba Izquierda
+      else if (partida.taulell.get(`${arrCasilla[0] + 1}-${arrCasilla[1] + 1}`) == jugador) {
+        if (!partida.taulell.get(casillaClick)) {
+          partida.taulell.set(casillaClick, jugador)
+          return true
+        }
+      }
+      // comprobar Diagonal Abajo Izquierda
+      else if (partida.taulell.get(`${arrCasilla[0] - 1}-${arrCasilla[1] + 1}`) == jugador) {
+        if (!partida.taulell.get(casillaClick)) {
+          partida.taulell.set(casillaClick, jugador)
+          return true
+        }
+      }
+    }
+
+    let partida = partidas4Jug.find(p => p.codiPartida == data.numeroPartida);
+    if (!partida) return;
+    let casillaClick = data.celdaClickada;
+    let jugador = data.jugador;
+    let colorJugador;
+
+    partida.jugadors.forEach(j => {
+      if (j.nomJugador == jugador) colorJugador = j.color;
+    });
+    if (partida.jugadors.length < 4) {
+      console.log("Falten jugadors a la sala")
+      return
+    }
+    console.log("Partida ->", partida.codiPartida, "| Jugador Clicat ->", jugador, "| Casella Clicada ->", casillaClick)
+    if (comprobarLados(partida, casillaClick, jugador)) {
+      socket.emit('celdaMoviment4Jug', { codiPartida: data.numeroPartida, celda: data.celdaClickada, color: colorJugador });
+      socket.broadcast.emit('celdaMoviment4Jug', { codiPartida: data.numeroPartida, celda: data.celdaClickada, color: colorJugador });
+    }
+  });
   //broadcast --> cualquiera que este conectado envia el cambio para que lo vean los demas
 });
 

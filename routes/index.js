@@ -111,15 +111,17 @@ router.post('/partida4Jug', function (req, res, next) {
             taulell.set(`${fila}-${columna}`, "");
           })
         })
+        taulell.set('10-1', nomJugador)
         let jugadors = [];
         let jugador = new Jugador(nomJugador)
+        jugador.color = "azul";
         jugadors.push(jugador);
         let partida = new Partida(codiPartida, jugadors);
         partida.taulell = taulell;
         partidas4Jug.push(partida);
         console.log(partidas4Jug)
         console.log(partidas4Jug[0].jugadors)
-        res.render('partida4Jug', { title: 'Partida 4 jugadors', jugadors: partida.jugadors.map(j => { return j.nomJugador }), codiPartida: codiPartida })
+        res.render('partida4Jug', { title: 'Partida 4 jugadors', nomJugador: nomJugador, codiPartida: codiPartida })
       }
       break;
     case "unirse":
@@ -131,10 +133,27 @@ router.post('/partida4Jug', function (req, res, next) {
               if (jugador.nomJugador == nomJugador) isJugadorDintre = true;
             })
             if (!isJugadorDintre) {
+              let numeroJugador = partida.jugadors.length;
               let jugador = new Jugador(nomJugador);
+              switch (numeroJugador) {
+                case 1: // Si el length es 1 (Es el 2 porque no ha entrado aun)
+                  partida.taulell.set('1-10', nomJugador);
+                  jugador.color = "rojo";
+                  break;
+                case 2: // Si el length es 2 (Es el 3 porque no ha entrado aun)
+                  partida.taulell.set('1-1', nomJugador);
+                  jugador.color = "naranja";
+                  break;
+                case 3: // Si el length es 3 (Es el 4 porque no ha entrado aun)
+                  partida.taulell.set('10-10', nomJugador);
+                  jugador.color = "verde";
+                  break;
+              }
               partida.jugadors.push(jugador);
-              res.render('partida4Jug', { title: 'Partida 4 jugadors', jugadors: partida.jugadors.map(j => { return j.nomJugador }), codiPartida: codiPartida })
+              res.render('partida4Jug', { title: 'Partida 4 jugadors', nomJugador: nomJugador, codiPartida: codiPartida })
             }
+
+
           } else {
             console.log("Error", nomJugador, "partida completa")
           }

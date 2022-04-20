@@ -4,25 +4,6 @@ block content
     head
         script(src="./js/partida2Jug.js")
         script(src="./js/socket.io/client-dist/socket.io.js")
-        script.
-            var socket = io();
-            var numeroPartida, celdaClickada, usuari;
-            function click (){
-                document.getElementById('taula').addEventListener('click', (ev) => {
-                celdaClickada = ev.target.id;
-                usuari = document.getElementById('nomJugador').innerHTML;
-                numeroPartida = document.getElementById('codiPartida').innerHTML;
-                console.log(celdaClickada);
-                socket.emit('celda', {
-                    numeroPartida: numeroPartida,celdaClickada: celdaClickada, jugador: usuari});
-                });
-                socket.on('celdaMoviment', function (data) {
-                    console.log(data)
-                    console.log('CLIENT -> dades rebudes del servidor->' + data.celda);
-                    document.getElementById(data.celda).classList.add("rojo");
-                });
-            }
-            window.addEventListener('load', click, false);
 
     main(class="w-full m-auto bg-indigo-100 rounded p-5")
         div 

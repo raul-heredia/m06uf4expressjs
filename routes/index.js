@@ -3,8 +3,8 @@ var router = express.Router();
 var monk = require('monk');
 var db = monk('127.0.0.1:27017/projecteExpress');
 
-let partidas2Jug = [];
-let partidas4Jug = [];
+var partidas2Jug = require('../data/Partida2JugService');
+var partidas4Jug = require('../data/Partida4JugService');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -52,6 +52,7 @@ router.post('/partida2Jug', function (req, res, next) {
         })
         taulell.set("5-1", nomJugador);
         let jugador = new Jugador(nomJugador)
+        jugador.color = "azul";
         jugadors.push(jugador);
         let partida = new Partida(codiPartida, jugadors);
         partida.taulell = taulell;
@@ -68,6 +69,7 @@ router.post('/partida2Jug', function (req, res, next) {
           if (partida.jugadors.length < 2) {
             if (partida.jugadors[0].nomJugador != nomJugador) {
               let jugador = new Jugador(nomJugador);
+              jugador.color = "rojo";
               partida.taulell.set("1-5", nomJugador);
               partida.jugadors.push(jugador);
               // res.render('partida2Jug', { title: 'Partida 2 jugadors', jugadors: partida.jugadors.map(j => { return j.nomJugador }), codiPartida: codiPartida })

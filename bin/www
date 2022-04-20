@@ -29,9 +29,12 @@ const { Server } = require("socket.io");
 const { set } = require('../app');
 const io = new Server(server);
 
+var partidas2Jug = require('../data/Partida2JugService');
+var partidas4Jug = require('../data/Partida4JugService');
+
 io.on('connection', (socket) => {
   console.log("USUARIO CONECTADO");
-  socket.on('celda', function (data) {
+  socket.on('celda2Jug', function (data) {
     /*
       - Una vez importado los arrays de partidas
 
@@ -42,9 +45,69 @@ io.on('connection', (socket) => {
     
     
     */
-    console.log('SERVIDOR -> dades rebudes del client->' + data.numeroPartida, data.celdaClickada, data.jugador);
-    socket.emit('celdaMoviment', { celda: data.celdaClickada });
-    socket.broadcast.emit('celdaMoviment', { celda: data.celdaClickada });
+
+    function comprobarLados(partida, casillaClick, jugador) {
+      let arrCasilla = casillaClick.split("-");
+      arrCasilla[0] = parseInt(arrCasilla[0])
+      arrCasilla[1] = parseInt(arrCasilla[1])
+      console.log(arrCasilla)
+      // Comprobar Izquierda
+      if (partida.taulell.get(`${(arrCasilla[0])}-${(arrCasilla[1] - 1)}`) == jugador) {
+        partida.taulell.set(casillaClick, jugador)
+        return true
+      }
+      // comprobar Derecha
+      else if (partida.taulell.get(`${arrCasilla[0]}-${arrCasilla[1] + 1}`) == jugador) {
+        partida.taulell.set(casillaClick, jugador)
+        return true
+      }
+      // comprobar Abajo
+      else if (partida.taulell.get(`${arrCasilla[0] + 1}-${arrCasilla[1]}`) == jugador) {
+        partida.taulell.set(casillaClick, jugador)
+        return true
+      }
+      // comprobar Arriba
+      else if (partida.taulell.get(`${arrCasilla[0] - 1}-${arrCasilla[1]}`) == jugador) {
+        partida.taulell.set(casillaClick, jugador)
+        return true
+      }
+      // comprobar Diagonal Arriba Derecha
+      else if (partida.taulell.get(`${arrCasilla[0] + 1}-${arrCasilla[1] - 1}`) == jugador) {
+        partida.taulell.set(casillaClick, jugador)
+        return true
+      }
+      // comprobar Diagonal Abajo Derecha
+      else if (partida.taulell.get(`${arrCasilla[0] - 1}-${arrCasilla[1] - 1}`) == jugador) {
+        partida.taulell.set(casillaClick, jugador)
+        return true
+      }
+      // comprobar Diagonal Arriba Izquierda
+      else if (partida.taulell.get(`${arrCasilla[0] + 1}-${arrCasilla[1] + 1}`) == jugador) {
+        partida.taulell.set(casillaClick, jugador)
+        return true
+      }
+      // comprobar Diagonal Abajo Izquierda
+      else if (partida.taulell.get(`${arrCasilla[0] - 1}-${arrCasilla[1] + 1}`) == jugador) {
+        partida.taulell.set(casillaClick, jugador)
+        return true
+      }
+    }
+
+    let partida = partidas2Jug.find(p => p.codiPartida == data.numeroPartida);
+    if (!partida) return;
+    let casillaClick = data.celdaClickada;
+    let jugador = data.jugador;
+    let colorJugador;
+    console.log(partida)
+    partida.jugadors.forEach(j => {
+      if (j.nomJugador == jugador) colorJugador = j.color;
+    });
+    // console.log(partida, casillaClick, jugador)
+
+    if (comprobarLados(partida, casillaClick, jugador)) {
+      socket.emit('celdaMoviment2Jug', { codiPartida: data.numeroPartida, celda: data.celdaClickada, color: colorJugador });
+      socket.broadcast.emit('celdaMoviment2Jug', { codiPartida: data.numeroPartida, celda: data.celdaClickada, color: colorJugador });
+    }
   });
   //broadcast --> cualquiera que este conectado envia el cambio para que lo vean los demas
 });

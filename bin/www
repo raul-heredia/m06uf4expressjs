@@ -35,61 +35,65 @@ var partidas4Jug = require('../data/Partida4JugService');
 io.on('connection', (socket) => {
   console.log("USUARIO CONECTADO");
   socket.on('celda2Jug', function (data) {
-    /*
-      - Una vez importado los arrays de partidas
-
-      - Buscar la partida con el identificador que le llega del websocket (Se podria hacer una nueva variable partida para que sea mas facil )
-      - Una vez encontrada la partida.
-        - Opción 1 Partida 2 Jugadores: Pillar posicion 0 y 3 (En la de 4 no se podria porque hay numeros de dos cifras) del string celdaClickada, parsearlos como integros y hacer funciones que comprueben hacia todos los lados y devuelvan true o falses
-        - Opción 2 (Cualquier partida): Hacer un split split("-") el cual nos devuelve un array con los numeros tal cual y sin guion, se parsean como integros y hacer funciones que comprueben hacia todos los lados y devuelvan true o falses
-    
-    
-    */
-
     function comprobarLados(partida, casillaClick, jugador) {
       let arrCasilla = casillaClick.split("-");
       arrCasilla[0] = parseInt(arrCasilla[0])
       arrCasilla[1] = parseInt(arrCasilla[1])
-      console.log(arrCasilla)
       // Comprobar Izquierda
       if (partida.taulell.get(`${(arrCasilla[0])}-${(arrCasilla[1] - 1)}`) == jugador) {
-        partida.taulell.set(casillaClick, jugador)
-        return true
+        if (!partida.taulell.get(casillaClick)) {
+          partida.taulell.set(casillaClick, jugador)
+          return true
+        }
       }
       // comprobar Derecha
       else if (partida.taulell.get(`${arrCasilla[0]}-${arrCasilla[1] + 1}`) == jugador) {
-        partida.taulell.set(casillaClick, jugador)
-        return true
+        if (!partida.taulell.get(casillaClick)) {
+          partida.taulell.set(casillaClick, jugador)
+          return true
+        }
       }
       // comprobar Abajo
       else if (partida.taulell.get(`${arrCasilla[0] + 1}-${arrCasilla[1]}`) == jugador) {
-        partida.taulell.set(casillaClick, jugador)
-        return true
+        if (!partida.taulell.get(casillaClick)) {
+          partida.taulell.set(casillaClick, jugador)
+          return true
+        }
       }
       // comprobar Arriba
       else if (partida.taulell.get(`${arrCasilla[0] - 1}-${arrCasilla[1]}`) == jugador) {
-        partida.taulell.set(casillaClick, jugador)
-        return true
+        if (!partida.taulell.get(casillaClick)) {
+          partida.taulell.set(casillaClick, jugador)
+          return true
+        }
       }
       // comprobar Diagonal Arriba Derecha
       else if (partida.taulell.get(`${arrCasilla[0] + 1}-${arrCasilla[1] - 1}`) == jugador) {
-        partida.taulell.set(casillaClick, jugador)
-        return true
+        if (!partida.taulell.get(casillaClick)) {
+          partida.taulell.set(casillaClick, jugador)
+          return true
+        }
       }
       // comprobar Diagonal Abajo Derecha
       else if (partida.taulell.get(`${arrCasilla[0] - 1}-${arrCasilla[1] - 1}`) == jugador) {
-        partida.taulell.set(casillaClick, jugador)
-        return true
+        if (!partida.taulell.get(casillaClick)) {
+          partida.taulell.set(casillaClick, jugador)
+          return true
+        }
       }
       // comprobar Diagonal Arriba Izquierda
       else if (partida.taulell.get(`${arrCasilla[0] + 1}-${arrCasilla[1] + 1}`) == jugador) {
-        partida.taulell.set(casillaClick, jugador)
-        return true
+        if (!partida.taulell.get(casillaClick)) {
+          partida.taulell.set(casillaClick, jugador)
+          return true
+        }
       }
       // comprobar Diagonal Abajo Izquierda
       else if (partida.taulell.get(`${arrCasilla[0] - 1}-${arrCasilla[1] + 1}`) == jugador) {
-        partida.taulell.set(casillaClick, jugador)
-        return true
+        if (!partida.taulell.get(casillaClick)) {
+          partida.taulell.set(casillaClick, jugador)
+          return true
+        }
       }
     }
 
@@ -98,12 +102,15 @@ io.on('connection', (socket) => {
     let casillaClick = data.celdaClickada;
     let jugador = data.jugador;
     let colorJugador;
-    console.log(partida)
+
     partida.jugadors.forEach(j => {
       if (j.nomJugador == jugador) colorJugador = j.color;
     });
-    // console.log(partida, casillaClick, jugador)
-
+    if (partida.jugadors.length < 2) {
+      console.log("Falten jugadors a la sala")
+      return
+    }
+    console.log("Partida ->", partida.codiPartida, "| Jugador Clicat ->", jugador, "| Casella Clicada ->", casillaClick)
     if (comprobarLados(partida, casillaClick, jugador)) {
       socket.emit('celdaMoviment2Jug', { codiPartida: data.numeroPartida, celda: data.celdaClickada, color: colorJugador });
       socket.broadcast.emit('celdaMoviment2Jug', { codiPartida: data.numeroPartida, celda: data.celdaClickada, color: colorJugador });

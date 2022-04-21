@@ -30,7 +30,24 @@ router.post('/crearCompte', function (req, res, next) {
   const contrasenya = req.body.contrasenya;
   const repContrasenya = req.body.repContrasenya;
 
-  res.send(`Usuari: ${usuari} Contrasenya: ${contrasenya} repContrasenya: ${repContrasenya}`);
+  async function crearCompte(usr, passwd, repPasswd) {
+    console.log("entra");
+    if (passwd == repPasswd) {
+      let usuari = await db.collection('jugadors').insert({
+        "usuari": usr,
+        "contrasenya": passwd,
+        "topPuntuacio1v1": 0,
+        "topPuntuacio4v4": 0
+      })
+      if (usuari) {
+        //res.send(`Usuari: ${usuari.usuari} Contrasenya: ${usuari.contrasenya}`);
+        res.redirect(`/lobby?usuari=${usuari.usuari}`)
+      }
+    } else {
+      res.send("Les contrassenyes no coincideixen")
+    }
+  }
+  crearCompte(usuari, contrasenya, repContrasenya);
 });
 
 

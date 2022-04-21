@@ -106,7 +106,6 @@ router.post('/partida2Jug', function (req, res, next) {
         let partida = new Partida(codiPartida, jugadors);
         partida.taulell = taulell;
         partidas2Jug.push(partida);
-        console.log(partidas2Jug)
         console.log("Codi partida: ", partida.codiPartida, "Jugadors: ", partida.jugadors.map(j => { return j.nomJugador }));
         // res.render('partida2Jug', { title: 'Partida 2 jugadors', jugadors: partida.jugadors.map(j => { return j.nomJugador }), codiPartida: codiPartida })
         res.render('partida2Jug', { title: 'Partida 2 jugadors', nomJugador: nomJugador, codiPartida: codiPartida })
@@ -122,7 +121,6 @@ router.post('/partida2Jug', function (req, res, next) {
               partida.taulell.set("1-5", nomJugador);
               partida.jugadors.push(jugador);
               // res.render('partida2Jug', { title: 'Partida 2 jugadors', jugadors: partida.jugadors.map(j => { return j.nomJugador }), codiPartida: codiPartida })
-              console.log(partida)
               console.log("Codi partida: ", partida.codiPartida, "Jugadors: ", partida.jugadors.map(j => { return j.nomJugador }));
               res.render('partida2Jug', { title: 'Partida 2 jugadors', nomJugador: nomJugador, codiPartida: codiPartida })
             }

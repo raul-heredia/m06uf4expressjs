@@ -112,6 +112,27 @@ io.on('connection', (socket) => {
     }
     console.log("Partida ->", partida.codiPartida, "| Jugador Clicat ->", jugador, "| Casella Clicada ->", casillaClick)
     if (comprobarLados(partida, casillaClick, jugador)) {
+      let isPartidaAcabada = true;
+      partida.taulell.forEach(casella => {
+        if (!casella) {
+          isPartidaAcabada = false;
+        }
+      })
+      if (isPartidaAcabada) {
+        // Por cada casilla iterar array jugadores si coincide sumar
+        partida.taulell.forEach(casella => {
+          partida.jugadors.forEach(j => {
+            if (j.nomJugador == casella) {
+              j.puntuacio += 150;
+            }
+          })
+        })
+        console.log(partida.jugadors[0])
+        console.log(partida.jugadors[1])
+        socket.emit('partidaAcabada2Jug', { codiPartida: data.numeroPartida, jugadors: partida.jugadors });
+        socket.broadcast.emit('partidaAcabada2Jug', { codiPartida: data.numeroPartida, jugadors: partida.jugadors });
+      }
+      console.log("Partida acabada? -> ", isPartidaAcabada)
       socket.emit('celdaMoviment2Jug', { codiPartida: data.numeroPartida, celda: data.celdaClickada, color: colorJugador });
       socket.broadcast.emit('celdaMoviment2Jug', { codiPartida: data.numeroPartida, celda: data.celdaClickada, color: colorJugador });
     }

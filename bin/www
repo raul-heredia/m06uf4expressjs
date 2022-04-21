@@ -107,38 +107,49 @@ io.on('connection', (socket) => {
     let colorJugador;
     let primerClic = true;
 
+    // Definimos el color del jugador que ha hecho click
     partida.jugadors.forEach(j => {
       if (j.nomJugador == jugador) colorJugador = j.color;
     });
+    // Si no hay dos jugadores no deja clicar
     if (partida.jugadors.length < 2) {
       console.log("Falten jugadors a la sala")
       return
     }
     console.log("Partida ->", partida.codiPartida, "| Jugador Clicat ->", jugador, "| Casella Clicada ->", casillaClick)
+    // Comprobamos los lados, en caso de que alguna comprobación sea correcta y devuelva true entra en el if
     if (comprobarLados(partida, casillaClick, jugador)) {
+      // Declaramos partida acabada en true 
       let isPartidaAcabada = true;
+      // Iteramos todas las casillas
       partida.taulell.forEach(casella => {
+        // En caso de que alguna sea falsa, quiere decir que está vacía por lo que la partida no ha acabado
         if (!casella) {
           isPartidaAcabada = false;
         }
       })
+      // Si la partida ha acabado
       if (isPartidaAcabada) {
         // Por cada casilla iterar array jugadores si coincide sumar
         partida.taulell.forEach(casella => {
+          // Si el valor de casilla -> rahema y el nombre del jugador -> rahema suma 150 puntos a la puntuación
           partida.jugadors.forEach(j => {
             if (j.nomJugador == casella) {
               j.puntuacio += 150;
             }
           })
         })
+        // Una vez tenemos la puntuación volvemos a iterar
         partida.jugadors.forEach(j => {
           // Por cada jugador pillar el Top Record, si el resultado actual es mayor al almacenado, entonces guardarlo
           async function emmagatzemar2Jug() {
             let jugadorMongo = await db.collection('jugadors').findOne({ usuari: j.nomJugador })
             if (jugadorMongo) {
+              // Si la puntuacion es mayor a la almacenada
               if (j.puntuacio > jugadorMongo.topPuntuacio1v1) {
                 console.log("Nou record", j.nomJugador);
-                j.nouRecord = true;
+                j.nouRecord = true; // Seteamos nouRecord en true para mostrarlo en el front
+                // Seteamos la nueva puntuacion
                 db.collection('jugadors').update({ "usuari": j.nomJugador }, {
                   $set: {
                     "topPuntuacio1v1": j.puntuacio
@@ -146,12 +157,15 @@ io.on('connection', (socket) => {
                 });
               }
             }
+            // Emitimos la partida acabada
             socket.emit('partidaAcabada2Jug', { codiPartida: data.numeroPartida, jugadors: partida.jugadors });
             socket.broadcast.emit('partidaAcabada2Jug', { codiPartida: data.numeroPartida, jugadors: partida.jugadors });
           }
           emmagatzemar2Jug();
         })
       }
+      // Si la partida no ha acabado mandamos los datos de la celda clicada junto con el numero de partida y el color del jugador
+      // Ademas en caso de ser la ultima casilla disponible se manda tambien para que se actualice a todo el mundo
       console.log("Partida acabada? -> ", isPartidaAcabada)
       socket.emit('celdaMoviment2Jug', { codiPartida: data.numeroPartida, celda: data.celdaClickada, color: colorJugador });
       socket.broadcast.emit('celdaMoviment2Jug', { codiPartida: data.numeroPartida, celda: data.celdaClickada, color: colorJugador });
@@ -163,27 +177,31 @@ io.on('connection', (socket) => {
     let casillaClick = data.celdaClickada;
     let jugador = data.jugador;
     let colorJugador;
-
+    // Iteramos el array de jugadores para definir el color que tiene el jugador que ha clicado esta vez
     partida.jugadors.forEach(j => {
       if (j.nomJugador == jugador) colorJugador = j.color;
     });
+    // Si no hay 4 jugadores no deja clicar
     if (partida.jugadors.length < 4) {
       console.log("Falten jugadors a la sala")
       return
     }
     console.log("Partida ->", partida.codiPartida, "| Jugador Clicat ->", jugador, "| Casella Clicada ->", casillaClick)
-
-
+    // Si el clic es correcto
     if (comprobarLados(partida, casillaClick, jugador)) {
+      // Declaramos isPartidaAcabada en true
       let isPartidaAcabada = true;
+      // En caso de que una casilla esté vacia quiere decir que no ha acabado la partida
       partida.taulell.forEach(casella => {
         if (!casella) {
           isPartidaAcabada = false;
         }
       })
       console.log("Partida acabada? -> ", isPartidaAcabada)
+      // Si la partida ha acabado
       if (isPartidaAcabada) {
         // Por cada casilla iterar array jugadores si coincide sumar
+        // si casilla -> rahema y jugador.nomJugador -> rahema puntuacion += 250
         partida.taulell.forEach(casella => {
           partida.jugadors.forEach(j => {
             if (j.nomJugador == casella) {
@@ -191,14 +209,17 @@ io.on('connection', (socket) => {
             }
           })
         })
+        // Una vez tenemos las puntuaciones, volvemos a iterar para comparar con el record almacenado
         partida.jugadors.forEach(j => {
           // Por cada jugador pillar el Top Record, si el resultado actual es mayor al almacenado, entonces guardarlo
           async function emmagatzemar2Jug() {
             let jugadorMongo = await db.collection('jugadors').findOne({ usuari: j.nomJugador })
             if (jugadorMongo) {
+              // si la puntuacion de esta partida es mayor a la almacenada se modifica
               if (j.puntuacio > jugadorMongo.topPuntuacio4v4) {
                 console.log("Nou record", j.nomJugador);
-                j.nouRecord = true;
+                j.nouRecord = true; // Ponemos nouRecord en true para mostrarlo en el front
+                // Modificamos el registro
                 db.collection('jugadors').update({ "usuari": j.nomJugador }, {
                   $set: {
                     "topPuntuacio4v4": j.puntuacio
@@ -206,12 +227,15 @@ io.on('connection', (socket) => {
                 });
               }
             }
+            // Emitimos que la partida ha acabado
             socket.emit('partidaAcabada4Jug', { codiPartida: data.numeroPartida, jugadors: partida.jugadors });
             socket.broadcast.emit('partidaAcabada4Jug', { codiPartida: data.numeroPartida, jugadors: partida.jugadors });
           }
           emmagatzemar2Jug();
         })
       }
+      // Si la partida no ha acabado mandamos la casilla junto con el codigo de la partida y el color
+      // Ademas en caso de ser la ultima casilla disponible se manda tambien para que se actualice a todo el mundo
       socket.emit('celdaMoviment4Jug', { codiPartida: data.numeroPartida, celda: data.celdaClickada, color: colorJugador });
       socket.broadcast.emit('celdaMoviment4Jug', { codiPartida: data.numeroPartida, celda: data.celdaClickada, color: colorJugador });
     }

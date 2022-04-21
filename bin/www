@@ -105,6 +105,7 @@ io.on('connection', (socket) => {
     let casillaClick = data.celdaClickada;
     let jugador = data.jugador;
     let colorJugador;
+    let primerClic = true;
 
     partida.jugadors.forEach(j => {
       if (j.nomJugador == jugador) colorJugador = j.color;

@@ -171,7 +171,46 @@ io.on('connection', (socket) => {
       return
     }
     console.log("Partida ->", partida.codiPartida, "| Jugador Clicat ->", jugador, "| Casella Clicada ->", casillaClick)
+
+
     if (comprobarLados(partida, casillaClick, jugador)) {
+      let isPartidaAcabada = true;
+      partida.taulell.forEach(casella => {
+        if (!casella) {
+          isPartidaAcabada = false;
+        }
+      })
+      console.log("Partida acabada? -> ", isPartidaAcabada)
+      if (isPartidaAcabada) {
+        // Por cada casilla iterar array jugadores si coincide sumar
+        partida.taulell.forEach(casella => {
+          partida.jugadors.forEach(j => {
+            if (j.nomJugador == casella) {
+              j.puntuacio += 250;
+            }
+          })
+        })
+        partida.jugadors.forEach(j => {
+          // Por cada jugador pillar el Top Record, si el resultado actual es mayor al almacenado, entonces guardarlo
+          async function emmagatzemar2Jug() {
+            let jugadorMongo = await db.collection('jugadors').findOne({ usuari: j.nomJugador })
+            if (jugadorMongo) {
+              if (j.puntuacio > jugadorMongo.topPuntuacio4v4) {
+                console.log("Nou record", j.nomJugador);
+                j.nouRecord = true;
+                db.collection('jugadors').update({ "usuari": j.nomJugador }, {
+                  $set: {
+                    "topPuntuacio4v4": j.puntuacio
+                  }
+                });
+              }
+            }
+            socket.emit('partidaAcabada4Jug', { codiPartida: data.numeroPartida, jugadors: partida.jugadors });
+            socket.broadcast.emit('partidaAcabada4Jug', { codiPartida: data.numeroPartida, jugadors: partida.jugadors });
+          }
+          emmagatzemar2Jug();
+        })
+      }
       socket.emit('celdaMoviment4Jug', { codiPartida: data.numeroPartida, celda: data.celdaClickada, color: colorJugador });
       socket.broadcast.emit('celdaMoviment4Jug', { codiPartida: data.numeroPartida, celda: data.celdaClickada, color: colorJugador });
     }

@@ -11,6 +11,12 @@ function main() {
     var celdaClickada;
     const numeroPartida = document.getElementById('codiPartida').innerHTML;
     const usuari = document.getElementById('nomJugador').innerHTML;
+    const guanyador = document.getElementById('guanyador');
+    const segon = document.getElementById('segon');
+    const tercer = document.getElementById('tercer');
+    const quart = document.getElementById('quart');
+
+
     taula.addEventListener('click', (ev) => {
         celdaClickada = ev.target.id;
         console.log(celdaClickada);
@@ -24,4 +30,24 @@ function main() {
         console.log('CLIENT -> dades rebudes del servidor->' + data.celda);
         if (data.codiPartida == numeroPartida) document.getElementById(data.celda).classList.add(data.color);
     });
+    socket.on('partidaAcabada4Jug', function (data) {
+        if (data.codiPartida == numeroPartida) {
+            console.log("Acabada", data)
+            jugadors = data.jugadors.sort(function (a, b) {
+                return b.puntuacio - a.puntuacio;
+            })
+
+            let jugador1NouRecord = jugadors[0].nouRecord ? "<b>Nou Record!</b>" : "";
+            let jugador2NouRecord = jugadors[1].nouRecord ? "<b>Nou Record!</b>" : "";
+            let jugador3NouRecord = jugadors[2].nouRecord ? "<b>Nou Record!</b>" : "";
+            let jugador4NouRecord = jugadors[3].nouRecord ? "<b>Nou Record!</b>" : "";
+
+            console.log('Partida acabada');
+            partidaAcabada.innerHTML = "Partida Acabada";
+            guanyador.innerHTML = `<b>Posició 1:</b> ${jugadors[0].nomJugador}  <b>Puntuació:</b> ${jugadors[0].puntuacio} ${jugador1NouRecord}`;
+            segon.innerHTML = `<b>Posició 2:</b> ${jugadors[1].nomJugador}  <b>Puntuació:</b> ${jugadors[1].puntuacio} ${jugador2NouRecord}`;
+            tercer.innerHTML = `<b>Posició 3:</b> ${jugadors[2].nomJugador}  <b>Puntuació:</b> ${jugadors[2].puntuacio} ${jugador3NouRecord}`;
+            quart.innerHTML = `<b>Posició 4:</b> ${jugadors[3].nomJugador}  <b>Puntuació:</b> ${jugadors[3].puntuacio} ${jugador4NouRecord}`;
+        }
+    })
 }

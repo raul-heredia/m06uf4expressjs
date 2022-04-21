@@ -1,0 +1,17 @@
+extends layout
+
+block content
+    main(class="w-full m-auto bg-indigo-100 rounded p-5")
+        h1(class="text-3xl mb-5")=title
+        div(class="scoreTable rounded-lg border shadow-2xl")
+            table(class="table-auto w-full text-left")
+                thead
+                    tr(class="bg-indigo-900 rounded-lg")
+                        th(class="p-4 text-neutral-50 text-left") Nom Jugador
+                        th(class="p-4 text-neutral-50 text-left") Puntuació
+                tbody
+                    each val, key in aPuntuacions
+                        tr
+                            td(class="p-4 uppercase")= val.nomJugador
+                            td(class="p-4")= val.topRecord
+        button.text-white.bg-blue-700.font-medium.rounded-lg.text-sm.px-5.mr-2.mb-2(type='submit' class='mt-5 text-white bg-indigo-900 hover:bg-indigo-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-900 dark:bg-indigo-800 focus:outline-none dark:focus:ring-blue-800' onclick="history.back()") Tornar Enrere

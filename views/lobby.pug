@@ -10,23 +10,16 @@ block content
                 div(class="flex flex-wrap gap-x-5 mt-5 justify-items-center justify-center text-center")
                     img(class="h-24 w-24" src="/images/a_blue.png")
                     img(class="h-24 w-24" src="/images/a_red.png")
-                form(action="/partida2Jug" method="POST")
+                form(action="/partida2Jug" method="POST" class="mt-10")
                     input.bg-gray-50.border.border-gray-300.text-gray-900.text-sm.rounded-lg.block.w-full(type='number' name="codiPartida" id="input2Jug" class='focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Codi Partida' required='')
                     input.bg-gray-50.border.border-gray-300.text-gray-900.text-sm.rounded-lg.block.w-full(type='text' name="nomJugador" id="nomJugador2Jug" value=username class="hidden")
                     div(class="mt-5")
                         button.text-white.bg-blue-700.font-medium.rounded-lg.text-sm.px-5.mr-2.mb-2(type='submit' name="accion" value="crear" id="crearPartida2Jug" class='hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800') Crear Partida
                         button.text-white.bg-blue-700.font-medium.rounded-lg.text-sm.px-5.mr-2.mb-2(type='submit' name="accion" value="unirse" id="unirsePartida2Jug" class='hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800') Unirse Partida
-                div(class="scoreTable rounded-lg border shadow-2xl")
-                    table(class="table-auto w-full text-left")
-                        thead
-                            tr(class="bg-indigo-900 rounded-lg")
-                                th(class="p-4 text-neutral-50 text-left") Nom Jugador
-                                th(class="p-4 text-neutral-50 text-left") Puntuació
-                        tbody
-                            each val, key in arr
-                                tr
-                                    td(class="p-4 uppercase")= val.usr
-                                    td(class="p-4")= val.top1v1
+                div(class="flex justify-center")
+                    div
+                        form(action='/puntuacions2Jug' method='POST')
+                            button.text-white.bg-blue-700.font-medium.rounded-lg.text-sm.px-5.mr-2.mb-2(type='submit' class='text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2') Anar a Puntuacions
             div(class="flex-auto w-full m-auto bg-indigo-100 rounded p-5")
                 h1(class="text-2xl")="4 JUGADORS"
                 div(class="flex flex-wrap gap-x-5 mt-5 justify-items-center justify-center text-center")
@@ -34,22 +27,15 @@ block content
                     img(class="h-24 w-24" src="/images/a_red.png")
                     img(class="h-24 w-24" src="/images/a_orange.png")
                     img(class="h-24 w-24" src="/images/a_green.png")
-                form(action="/partida4Jug" method="POST")
+                form(action="/partida4Jug" method="POST" class="mt-10")
                     input.bg-gray-50.border.border-gray-300.text-gray-900.text-sm.rounded-lg.block.w-full(type='number' name="codiPartida" id="input4Jug" class='focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ' placeholder='Codi Partida' required='')
                     input.bg-gray-50.border.border-gray-300.text-gray-900.text-sm.rounded-lg.block.w-full(type='text' name="nomJugador" id="nomJugador2Jug" class="hidden" value=username)
                     div(class="mt-5")
                         button.text-white.bg-blue-700.font-medium.rounded-lg.text-sm.px-5.mr-2.mb-2(type='submit' name="accion" value="crear" id="crearPartida4Jug" class='hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800') Crear Partida
                         button.text-white.bg-blue-700.font-medium.rounded-lg.text-sm.px-5.mr-2.mb-2(type='submit' name="accion" value="unirse" id="unirsePartida4Jug" class='hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800') Unirse Partida
-                div(class="scoreTable rounded-lg border shadow-2xl")
-                    table(class="table-auto w-full text-left")
-                        thead
-                            tr(class="bg-indigo-900 rounded-lg")
-                                th(class="p-4 text-neutral-50 text-left") Nom Jugador
-                                th(class="p-4 text-neutral-50 text-left") Puntuació
-                        tbody
-                            each val, key in arr
-                                tr
-                                    td(class="p-4 uppercase")= val.usr
-                                    td(class="p-4")= val.top1v1
+                    div(class="flex justify-center")
+                div
+                    form(action='/puntuacions4Jug' method='POST')
+                        button.text-white.bg-blue-700.font-medium.rounded-lg.text-sm.px-5.mr-2.mb-2(type='submit' class='text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2') Anar a Puntuacions
 
 

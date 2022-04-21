@@ -19,11 +19,60 @@ router.get('/crearCompte', function (req, res, next) {
 
 router.get('/lobby', function (req, res, next) {
   usuari = req.query.usuari;
-  arr = [
-    { usr: "rahema", top1v1: 500 },
-    { usr: "jubaal", top1v1: 250 }
-  ]
-  res.render('lobby', { title: 'Lobby', username: usuari, arr: arr });
+  res.render('lobby', { title: 'Lobby', username: usuari });
+});
+
+
+/* LOGICA PUNTUACIONS */
+
+router.post('/puntuacions2Jug', function (req, res, next) {
+  let aPuntuacions = [];
+  async function carregaPuntuacions() {
+    let puntuacions = await db.collection('jugadors').find({}, {}, function (e, jugadors) {
+      jugadors.forEach(jugador => {
+        aPuntuacions.push(
+          { nomJugador: jugador.usuari, topRecord: jugador.topPuntuacio1v1 }
+        )
+      })
+      console.log(aPuntuacions)
+      if (puntuacions) {
+        //res.send(`Usuari: ${usuari.usuari} Contrasenya: ${usuari.contrasenya}`);
+        res.render('puntuacions', {
+          title: "Puntuacions 2 Jugadors", aPuntuacions: aPuntuacions.sort(function (a, b) {
+            return b.topRecord - a.topRecord;
+          })
+        })
+      } else {
+        next(createError(404));
+      }
+    });
+  }
+  carregaPuntuacions();
+});
+
+router.post('/puntuacions4Jug', function (req, res, next) {
+  let aPuntuacions = [];
+  async function carregaPuntuacions() {
+    let puntuacions = await db.collection('jugadors').find({}, {}, function (e, jugadors) {
+      jugadors.forEach(jugador => {
+        aPuntuacions.push(
+          { nomJugador: jugador.usuari, topRecord: jugador.topPuntuacio4v4 }
+        )
+      })
+      console.log(aPuntuacions)
+      if (puntuacions) {
+        //res.send(`Usuari: ${usuari.usuari} Contrasenya: ${usuari.contrasenya}`);
+        res.render('puntuacions', {
+          title: "Puntuacions 4 Jugadors", aPuntuacions: aPuntuacions.sort(function (a, b) {
+            return b.topRecord - a.topRecord;
+          })
+        })
+      } else {
+        next(createError(404));
+      }
+    });
+  }
+  carregaPuntuacions();
 });
 
 /* LOGICA CREAR UNIRSE PARTIDA 2 JUGADORES */

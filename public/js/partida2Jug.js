@@ -12,7 +12,7 @@ function main() {
     const partidaAcabada = document.getElementById('partidaAcabada');
     const guanyador = document.getElementById('guanyador');
     const segon = document.getElementById('segon');
-
+    const tornarEnrere = document.getElementById('tornarEnrere');
 
     taula.addEventListener('click', (ev) => {
         celdaClickada = ev.target.id;
@@ -42,6 +42,7 @@ function main() {
             partidaAcabada.innerHTML = "Partida Acabada";
             guanyador.innerHTML = `<b>Posició 1:</b> ${jugadors[0].nomJugador}  <b>Puntuació:</b> ${jugadors[0].puntuacio} ${jugador1NouRecord}`;
             segon.innerHTML = `<b>Posició 2:</b> ${jugadors[1].nomJugador}  <b>Puntuació:</b> ${jugadors[1].puntuacio} ${jugador2NouRecord}`;
+            tornarEnrere.classList.remove("hidden");
         }
     })
 

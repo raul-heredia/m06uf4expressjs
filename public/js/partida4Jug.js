@@ -15,7 +15,7 @@ function main() {
     const segon = document.getElementById('segon');
     const tercer = document.getElementById('tercer');
     const quart = document.getElementById('quart');
-
+    const tornarEnrere = document.getElementById('tornarEnrere');
 
     taula.addEventListener('click', (ev) => {
         celdaClickada = ev.target.id;
@@ -48,6 +48,7 @@ function main() {
             segon.innerHTML = `<b>Posició 2:</b> ${jugadors[1].nomJugador}  <b>Puntuació:</b> ${jugadors[1].puntuacio} ${jugador2NouRecord}`;
             tercer.innerHTML = `<b>Posició 3:</b> ${jugadors[2].nomJugador}  <b>Puntuació:</b> ${jugadors[2].puntuacio} ${jugador3NouRecord}`;
             quart.innerHTML = `<b>Posició 4:</b> ${jugadors[3].nomJugador}  <b>Puntuació:</b> ${jugadors[3].puntuacio} ${jugador4NouRecord}`;
+            tornarEnrere.classList.remove("hidden");
         }
     })
 }

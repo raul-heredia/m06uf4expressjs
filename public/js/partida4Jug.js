@@ -44,7 +44,7 @@ function main() {
 
             console.log('Partida acabada');
             partidaAcabada.innerHTML = "Partida Acabada";
-            guanyador.innerHTML = `<b>Posició 1:</b> ${jugadors[0].nomJugador}  <b>Puntuació:</b> ${jugadors[0].puntuacio} ${jugador1NouRecord}`;
+            guanyador.innerHTML = `<b>Guanyador:</b> ${jugadors[0].nomJugador}  <b>Puntuació:</b> ${jugadors[0].puntuacio} ${jugador1NouRecord}`;
             segon.innerHTML = `<b>Posició 2:</b> ${jugadors[1].nomJugador}  <b>Puntuació:</b> ${jugadors[1].puntuacio} ${jugador2NouRecord}`;
             tercer.innerHTML = `<b>Posició 3:</b> ${jugadors[2].nomJugador}  <b>Puntuació:</b> ${jugadors[2].puntuacio} ${jugador3NouRecord}`;
             quart.innerHTML = `<b>Posició 4:</b> ${jugadors[3].nomJugador}  <b>Puntuació:</b> ${jugadors[3].puntuacio} ${jugador4NouRecord}`;

@@ -92,14 +92,14 @@ router.post('/partida2Jug', function (req, res, next) {
       });
       if (!isPartida) {
         let jugadors = [];
-        let files = [1, 2, 3, 4, 5], columnes = [1, 2, 3, 4, 5];
+        let files = [1, 2, 3, 4, 5, 6], columnes = [1, 2, 3, 4, 5, 6];
         let taulell = new Map();
         files.forEach(fila => {
           columnes.forEach(columna => {
             taulell.set(`${fila}-${columna}`, "");
           })
         })
-        taulell.set("5-1", nomJugador);
+        taulell.set("6-1", nomJugador);
         let jugador = new Jugador(nomJugador)
         jugador.color = "azul";
         jugadors.push(jugador);
@@ -118,7 +118,7 @@ router.post('/partida2Jug', function (req, res, next) {
             if (partida.jugadors[0].nomJugador != nomJugador) {
               let jugador = new Jugador(nomJugador);
               jugador.color = "rojo";
-              partida.taulell.set("1-5", nomJugador);
+              partida.taulell.set("1-6", nomJugador);
               partida.jugadors.push(jugador);
               // res.render('partida2Jug', { title: 'Partida 2 jugadors', jugadors: partida.jugadors.map(j => { return j.nomJugador }), codiPartida: codiPartida })
               console.log("Codi partida: ", partida.codiPartida, "Jugadors: ", partida.jugadors.map(j => { return j.nomJugador }));

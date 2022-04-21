@@ -6,13 +6,13 @@ block content
         script(src="./js/socket.io/client-dist/socket.io.js")
 
     main(class="w-full m-auto bg-indigo-100 rounded p-5")
-        div 
+        div(class="text-lg")
             span="Codi Partida: "
             span(id="codiPartida")=codiPartida
-        div
+        div(class="text-lg")
             span="Jugador: "
             span(id="nomJugador")=nomJugador
-        div()
+        div
             h1(id="partidaAcabada" class="text-2xl")
             h1(id="guanyador" class="text-xl")
             h1(id="segon" class="text-xl")
@@ -20,7 +20,7 @@ block content
         div(class="flex justify-center") 
             div
                 table(class="tablero" id="taula") 
-                    each row in [1, 2, 3, 4, 5]
+                    each row in [1, 2, 3, 4, 5, 6]
                         tr(class="tablero")
-                            each col in [1, 2, 3, 4, 5]
+                            each col in [1, 2, 3, 4, 5, 6]
                                 td(class="tablero" id=`${row}-${col}`) 

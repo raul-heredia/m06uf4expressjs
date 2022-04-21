@@ -1,8 +1,8 @@
 window.onload = main;
 
 function main() {
-    document.getElementById('1-5').classList.add("rojo");
-    document.getElementById('5-1').classList.add("azul");
+    document.getElementById('1-6').classList.add("rojo");
+    document.getElementById('6-1').classList.add("azul");
 
     const taula = document.getElementById('taula');
     var socket = io();

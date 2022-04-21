@@ -34,14 +34,14 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
-/*Tablero 2 jugadores*/
+/* Tableros */
 
 table.tablero, th.tablero, td.tablero{
   border: 1px solid black
 }
 
 table.tablero{
-  border: 1px solid red;
+  border: 2px solid black;
 }
 td.tablero{
   width: 50px;

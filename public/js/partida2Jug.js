@@ -34,10 +34,14 @@ function main() {
             jugadors = data.jugadors.sort(function (a, b) {
                 return b.puntuacio - a.puntuacio;
             })
+
+            let jugador1NouRecord = jugadors[0].nouRecord ? "<b>Nou Record!</b>" : "";
+            let jugador2NouRecord = jugadors[1].nouRecord ? "<b>Nou Record!</b>" : "";
+
             console.log('Partida acabada');
             partidaAcabada.innerHTML = "Partida Acabada";
-            guanyador.innerHTML = `<b>Posició 1:</b> ${jugadors[0].nomJugador}  <b>Puntuació:</b> ${jugadors[0].puntuacio}`;
-            segon.innerHTML = `<b>Posició 2:</b> ${jugadors[1].nomJugador}  <b>Puntuació:</b> ${jugadors[1].puntuacio}`;
+            guanyador.innerHTML = `<b>Posició 1:</b> ${jugadors[0].nomJugador}  <b>Puntuació:</b> ${jugadors[0].puntuacio} ${jugador1NouRecord}`;
+            segon.innerHTML = `<b>Posició 2:</b> ${jugadors[1].nomJugador}  <b>Puntuació:</b> ${jugadors[1].puntuacio} ${jugador2NouRecord}`;
         }
     })
 

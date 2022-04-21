@@ -31,6 +31,9 @@ const io = new Server(server);
 
 var partidas2Jug = require('../data/Partida2JugService');
 var partidas4Jug = require('../data/Partida4JugService');
+var monk = require('monk');
+var db = monk('127.0.0.1:27017/projecteExpress');
+
 
 function comprobarLados(partida, casillaClick, jugador) {
   let arrCasilla = casillaClick.split("-");
@@ -127,8 +130,26 @@ io.on('connection', (socket) => {
             }
           })
         })
-        socket.emit('partidaAcabada2Jug', { codiPartida: data.numeroPartida, jugadors: partida.jugadors });
-        socket.broadcast.emit('partidaAcabada2Jug', { codiPartida: data.numeroPartida, jugadors: partida.jugadors });
+        partida.jugadors.forEach(j => {
+          // Por cada jugador pillar el Top Record, si el resultado actual es mayor al almacenado, entonces guardarlo
+          async function emmagatzemar2Jug() {
+            let jugadorMongo = await db.collection('jugadors').findOne({ usuari: j.nomJugador })
+            if (jugadorMongo) {
+              if (j.puntuacio > jugadorMongo.topPuntuacio1v1) {
+                console.log("Nou record", j.nomJugador);
+                j.nouRecord = true;
+                db.collection('jugadors').update({ "usuari": j.nomJugador }, {
+                  $set: {
+                    "topPuntuacio1v1": j.puntuacio
+                  }
+                });
+              }
+            }
+            socket.emit('partidaAcabada2Jug', { codiPartida: data.numeroPartida, jugadors: partida.jugadors });
+            socket.broadcast.emit('partidaAcabada2Jug', { codiPartida: data.numeroPartida, jugadors: partida.jugadors });
+          }
+          emmagatzemar2Jug();
+        })
       }
       console.log("Partida acabada? -> ", isPartidaAcabada)
       socket.emit('celdaMoviment2Jug', { codiPartida: data.numeroPartida, celda: data.celdaClickada, color: colorJugador });
